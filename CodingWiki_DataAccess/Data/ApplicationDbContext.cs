@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CodingWiki_DataAccess.Data
 {
-    internal class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : DbContext
     {
         DbSet<Book> Books { get; set; }
         DbSet<Category> Categories { get; set; }
@@ -16,10 +16,16 @@ namespace CodingWiki_DataAccess.Data
         DbSet<Publisher> Publishers { get; set; }
         DbSet<SubCategory> SubCategories { get; set; }
         DbSet<BookDetail> bookDetails { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
-            options.UseSqlServer("Data Source=(localdb)\\ProjectModels;Initial Catalog=CodingWiki;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+
         }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder options)
+        //{
+        //    options.UseSqlServer("Data Source=(localdb)\\ProjectModels;Initial Catalog=CodingWiki;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BookAuthor>().HasKey(u => new {u.AuthorId, u.BookId});
